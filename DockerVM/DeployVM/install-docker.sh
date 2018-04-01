@@ -1,4 +1,9 @@
-﻿###	This file should be run in SUDO mode
+﻿#!/bin/bash
+
+###	This file should be run in SUDO mode
+
+### The script file needs to be executable, i.e.
+#	chmod +x script.sh
 
 #	Install tools
 yum install -y yum-utils \
