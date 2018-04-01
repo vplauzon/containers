@@ -38,7 +38,10 @@
       "offer": "CentOS",
       "sku": "7.4",
       "version": "latest"
-    }
+    },
+    "Docker Script Name": "docker-install",
+    "Docker Script URL": "https://raw.githubusercontent.com/vplauzon/containers/master/DockerVM/DeployVM/install-docker.sh",
+    "Docker Command": "sh install-docker.sh"
   },
   "resources": [
     {
@@ -174,7 +177,29 @@
           ]
         }
       },
-      "resources": [],
+      "resources": [
+        {
+          "type": "extensions",
+          "name": "[variables('Docker Script Name')]",
+          "tags": {},
+          "apiVersion": "2017-12-01",
+          "location": "[resourceGroup().location]",
+          "dependsOn": [
+            "[resourceId('Microsoft.Compute/virtualMachines', variables('VM Name'))]"
+          ],
+          "properties": {
+            "publisher": "Microsoft.Azure.Extensions",
+            "type": "CustomScript",
+            "typeHandlerVersion": "2.0",
+            "autoUpgradeMinorVersion": true,
+            "settings": {
+              "fileUris": [
+                "[variables('Docker Script URL')]"
+              ],
+              "commandToExecute": "[variables('Docker Command')]"
+            }
+          }
+        }],
       "dependsOn": [
         "[resourceId('Microsoft.Network/networkInterfaces', variables('NIC Name'))]"
       ]
