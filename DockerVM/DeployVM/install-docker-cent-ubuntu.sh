@@ -5,25 +5,30 @@
 ### The script file needs to be executable, i.e.
 #	chmod +x script.sh
 
+#	Update package index
+apt-get update
+
 #	Install tools
-yum install -y yum-utils \
-  device-mapper-persistent-data \
-  lvm2
+apt-get install \
+    apt-transport-https \
+    ca-certificates \
+    curl \
+    software-properties-common
+
+#	Add Docker's official GPG key
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
 
 #	Setup stable repo
-yum-config-manager \
-    --add-repo \
-    https://download.docker.com/linux/centos/docker-ce.repo
+add-apt-repository \
+   "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+   $(lsb_release -cs) \
+   stable"
 
-#	Enable edge & test repo
-yum-config-manager --enable docker-ce-edge
-yum-config-manager --enable docker-ce-test
+#	Update package index (again)
+apt-get update
 
 #	Install latest version of Docker CE
-yum install docker-ce -y
-
-#	Start Docker
-systemctl start docker
+apt-get install docker-ce -y
 
 #	Run Hello World
-docker run hello-world
+sudo docker run hello-world
