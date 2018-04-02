@@ -31,8 +31,8 @@
       <Visible>False</Visible>
     </None>
     <Content Include="Deploy-AzureResourceGroup.ps1" />
-    <None Include="install-docker-cent-ubuntu.sh" />
     <None Include="install-docker-cent-os.sh" />
+    <None Include="install-docker-ubuntu.sh" />
   </ItemGroup>
   <Target Name="GetReferenceAssemblyPaths" />
 </Project>
