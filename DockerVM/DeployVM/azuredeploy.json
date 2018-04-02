@@ -8,6 +8,17 @@
     "VM Admin Password": {
       "type": "securestring"
     },
+    "Operating System": {
+      "defaultValue": "Ubuntu",
+      "type": "string",
+      "allowedValues": [
+        "CentOS",
+        "Ubuntu"
+      ],
+      "metadata": {
+        "description": "SKU of the VM."
+      }
+    },
     "VM Size": {
       "defaultValue": "Standard_B2s",
       "type": "string",
@@ -26,22 +37,36 @@
     }
   },
   "variables": {
+    "isCentOS": "[if(equals(parameters('Operating System'), 'CentOS'), bool('true'), bool('false'))]",
     "VNET IP Range": "10.0.16.0/24",
     "Public IP Name": "DockerPublicIP",
     "NIC Name": "DockerNic",
-    "VM Name": "DockerVM",
+    "VM CentOS Name": "DockerCentOS-VM",
+    "VM Ubuntu Name": "DockerUbuntu-VM",
+    "VM Name": "[if(variables('isCentOS'), variables('VM CentOS Name'), variables('VM Ubuntu Name'))]",
     "OS Disk Name": "[concat(variables('VM Name'), '-OsDisk')]",
     "VNET Name": "DockerVNet",
     "NSG Name": "DockerNsg",
-    "VM Image Reference": {
+    "VM CentOS Image Reference": {
       "publisher": "OpenLogic",
       "offer": "CentOS",
       "sku": "7.4",
       "version": "latest"
     },
-    "Docker Script Name": "docker-install",
-    "Docker Script URL": "https://raw.githubusercontent.com/vplauzon/containers/master/DockerVM/DeployVM/install-docker.sh",
-    "Docker Command": "sh install-docker.sh"
+    "VM Ubuntu Image Reference": {
+      "publisher": "Canonical",
+      "offer": "UbuntuServer",
+      "sku": "17.10",
+      "version": "latest"
+    },
+    "VM Image Reference": "[if(variables('isCentOS'), variables('VM CentOS Image Reference'), variables('VM Ubuntu Image Reference'))]",
+    "Docker Custom Script Name": "docker-install",
+    "Docker CentOS Script URL": "https://raw.githubusercontent.com/vplauzon/containers/master/DockerVM/DeployVM/install-docker-cent-os.sh",
+    "Docker Ubuntu Script URL": "https://raw.githubusercontent.com/vplauzon/containers/master/DockerVM/DeployVM/install-docker-ubuntu.sh",
+    "Docker Script URL": "[if(variables('isCentOS'), variables('Docker CentOS Script URL'), variables('Docker Ubuntu Script URL'))]",
+    "Docker CentOS Command": "sh install-docker-cent-os.sh",
+    "Docker Ubuntu Command": "sh install-docker-ubuntu.sh",
+    "Docker Command": "[if(variables('isCentOS'), variables('Docker CentOS Command'), variables('Docker Ubuntu Command'))]"
   },
   "resources": [
     {
@@ -180,7 +205,7 @@
       "resources": [
         {
           "type": "extensions",
-          "name": "[variables('Docker Script Name')]",
+          "name": "[variables('Docker Custom Script Name')]",
           "tags": {},
           "apiVersion": "2017-12-01",
           "location": "[resourceGroup().location]",
@@ -199,7 +224,8 @@
               "commandToExecute": "[variables('Docker Command')]"
             }
           }
-        }],
+        }
+      ],
       "dependsOn": [
         "[resourceId('Microsoft.Network/networkInterfaces', variables('NIC Name'))]"
       ]
