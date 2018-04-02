@@ -92,15 +92,28 @@
       "properties": {
         "securityRules": [
           {
-            "name": "Allow-everything",
+            "name": "Allow-ssh",
             "properties": {
-              "protocol": "*",
+              "protocol": "Tcp",
               "sourcePortRange": "*",
-              "destinationPortRange": "*",
+              "destinationPortRange": "22",
               "sourceAddressPrefix": "*",
               "destinationAddressPrefix": "*",
               "access": "Allow",
               "priority": 100,
+              "direction": "Inbound"
+            }
+          },
+          {
+            "name": "Allow-ssh",
+            "properties": {
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "destinationPortRange": "80-89",
+              "sourceAddressPrefix": "*",
+              "destinationAddressPrefix": "*",
+              "access": "Allow",
+              "priority": 200,
               "direction": "Inbound"
             }
           }
