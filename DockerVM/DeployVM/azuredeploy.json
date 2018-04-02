@@ -94,7 +94,7 @@
           {
             "name": "Allow-ssh",
             "properties": {
-              "protocol": "Tcp",
+              "protocol": "TCP",
               "sourcePortRange": "*",
               "destinationPortRange": "22",
               "sourceAddressPrefix": "*",
@@ -105,9 +105,9 @@
             }
           },
           {
-            "name": "Allow-ssh",
+            "name": "Allow-internet",
             "properties": {
-              "protocol": "Tcp",
+              "protocol": "TCP",
               "sourcePortRange": "*",
               "destinationPortRange": "80-89",
               "sourceAddressPrefix": "*",
