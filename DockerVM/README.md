@@ -2,6 +2,8 @@
 
 Deploy a CentOS or Ubuntu VM Linux VM and install Docker Community Edition (CE) on it.
 
+Port 22 (SSH) and 80-89 are openned.
+
 Operating System (OS) is a deployment parameter.
 
 Docker install instructions were found [here](https://www.docker.com/community-edition) for all OS.
