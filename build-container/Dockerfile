@@ -7,8 +7,10 @@ WORKDIR /scratch
 # Copy Shell script to work directory
 ADD build.sh /scratch
 
-# Install Git
-RUN apt-get update && apt-get install -y --no-install-recommends git
+# Install Git (docker base image is based on Alpine Linux)
+RUN apk update && \
+    apk upgrade && \
+    apk add git
 
 # Define environment variable
 ENV NAME World
