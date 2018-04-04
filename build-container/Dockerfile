@@ -16,4 +16,4 @@ RUN apk update && \
 ENV NAME World
 
 # Run shell script
-CMD ["build.sh"]
+CMD "/bin/sh" "build.sh"
