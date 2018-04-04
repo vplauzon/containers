@@ -12,6 +12,9 @@ RUN apk update && \
     apk upgrade && \
     apk add git
 
+#   Start docker...?
+RUN systemctl start docker
+
 # Define environment variable
 ENV NAME World
 
