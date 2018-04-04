@@ -1,5 +1,5 @@
-# Containers
+# Docker Container:  Get Started without Redis
 
-This repo contains different demos / POCs / Tutorials around Docker Containers.
+This folder is a docker file with a few artefacts defining a Docker Image corresponding to [Docker's getting started part 2](https://docs.docker.com/get-started/part2/).
 
-[DockerVM](https://github.com/vplauzon/containers/tree/master/DockerVM) is a good starting point as it provides an ARM template for a Docker VM sandbox.
+We removed the Redis invocation which created (on purpose in the tutorial) an error and increased latency.
