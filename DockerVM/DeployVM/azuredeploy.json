@@ -66,7 +66,14 @@
     "Docker Script URL": "[if(variables('isCentOS'), variables('Docker CentOS Script URL'), variables('Docker Ubuntu Script URL'))]",
     "Docker CentOS Command": "sh install-docker-cent-os.sh",
     "Docker Ubuntu Command": "sh install-docker-ubuntu.sh",
-    "Docker Command": "[if(variables('isCentOS'), variables('Docker CentOS Command'), variables('Docker Ubuntu Command'))]"
+    "Docker Command": "[if(variables('isCentOS'), variables('Docker CentOS Command'), variables('Docker Ubuntu Command'))]",
+    "Azure CLI Custom Script Name": "azure-cli-install",
+    "Azure CLI CentOS Script URL": "https://raw.githubusercontent.com/vplauzon/containers/master/DockerVM/DeployVM/install-azure-cli-cent-os.sh",
+    "Azure CLI Ubuntu Script URL": "https://raw.githubusercontent.com/vplauzon/containers/master/DockerVM/DeployVM/install-azure-cli-ubuntu.sh",
+    "Azure CLI Script URL": "[if(variables('isCentOS'), variables('Azure CLI CentOS Script URL'), variables('Azure CLI Ubuntu Script URL'))]",
+    "Azure CLI CentOS Command": "sh install-azure-cli-cent-os.sh",
+    "Azure CLI Ubuntu Command": "sh install-azure-cli-ubuntu.sh",
+    "Azure CLI Command": "[if(variables('isCentOS'), variables('Azure CLI CentOS Command'), variables('Azure CLI Ubuntu Command'))]"
   },
   "resources": [
     {
@@ -235,6 +242,28 @@
                 "[variables('Docker Script URL')]"
               ],
               "commandToExecute": "[variables('Docker Command')]"
+            }
+          }
+        },
+        {
+          "type": "extensions",
+          "name": "[variables('Azure CLI Custom Script Name')]",
+          "tags": {},
+          "apiVersion": "2017-12-01",
+          "location": "[resourceGroup().location]",
+          "dependsOn": [
+            "[resourceId('Microsoft.Compute/virtualMachines', variables('VM Name'))]"
+          ],
+          "properties": {
+            "publisher": "Microsoft.Azure.Extensions",
+            "type": "CustomScript",
+            "typeHandlerVersion": "2.0",
+            "autoUpgradeMinorVersion": true,
+            "settings": {
+              "fileUris": [
+                "[variables('Azure CLI Script URL')]"
+              ],
+              "commandToExecute": "[variables('Azure CLI Command')]"
             }
           }
         }

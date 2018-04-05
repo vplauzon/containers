@@ -31,6 +31,8 @@
       <Visible>False</Visible>
     </None>
     <Content Include="Deploy-AzureResourceGroup.ps1" />
+    <None Include="install-azure-cli-ubuntu.sh" />
+    <None Include="install-azure-cli-cent-os.sh" />
     <None Include="install-docker-cent-os.sh" />
     <None Include="install-docker-ubuntu.sh" />
   </ItemGroup>
