@@ -60,20 +60,21 @@
       "version": "latest"
     },
     "VM Image Reference": "[if(variables('isCentOS'), variables('VM CentOS Image Reference'), variables('VM Ubuntu Image Reference'))]",
-    "Docker Custom Script Name": "docker-install",
-    "Docker CentOS Script URL": "https://raw.githubusercontent.com/vplauzon/containers/master/DockerVM/DeployVM/install-docker-cent-os.sh",
-    "Docker Ubuntu Script URL": "https://raw.githubusercontent.com/vplauzon/containers/master/DockerVM/DeployVM/install-docker-ubuntu.sh",
-    "Docker Script URL": "[if(variables('isCentOS'), variables('Docker CentOS Script URL'), variables('Docker Ubuntu Script URL'))]",
-    "Docker CentOS Command": "sh install-docker-cent-os.sh",
-    "Docker Ubuntu Command": "sh install-docker-ubuntu.sh",
-    "Docker Command": "[if(variables('isCentOS'), variables('Docker CentOS Command'), variables('Docker Ubuntu Command'))]",
-    "Azure CLI Custom Script Name": "azure-cli-install",
-    "Azure CLI CentOS Script URL": "https://raw.githubusercontent.com/vplauzon/containers/master/DockerVM/DeployVM/install-azure-cli-cent-os.sh",
-    "Azure CLI Ubuntu Script URL": "https://raw.githubusercontent.com/vplauzon/containers/master/DockerVM/DeployVM/install-azure-cli-ubuntu.sh",
-    "Azure CLI Script URL": "[if(variables('isCentOS'), variables('Azure CLI CentOS Script URL'), variables('Azure CLI Ubuntu Script URL'))]",
-    "Azure CLI CentOS Command": "sh install-azure-cli-cent-os.sh",
-    "Azure CLI Ubuntu Command": "sh install-azure-cli-ubuntu.sh",
-    "Azure CLI Command": "[if(variables('isCentOS'), variables('Azure CLI CentOS Command'), variables('Azure CLI Ubuntu Command'))]"
+    "Custom Script Name": "custom-script",
+    "CentOS Script URLs": [
+      "https://raw.githubusercontent.com/vplauzon/containers/master/DockerVM/DeployVM/install-docker-cent-os.sh",
+      "https://raw.githubusercontent.com/vplauzon/containers/master/DockerVM/DeployVM/install-azure-cli-cent-os.sh",
+      "https://raw.githubusercontent.com/vplauzon/containers/master/DockerVM/DeployVM/bootstrap-cent-os.sh"
+    ],
+    "Ubuntu Script URLs": [
+      "https://raw.githubusercontent.com/vplauzon/containers/master/DockerVM/DeployVM/install-docker-ubuntu.sh",
+      "https://raw.githubusercontent.com/vplauzon/containers/master/DockerVM/DeployVM/install-azure-cli-ubuntu.sh",
+      "https://raw.githubusercontent.com/vplauzon/containers/master/DockerVM/DeployVM/bootstrap-ubuntu.sh"
+    ],
+    "Script URLs": "[if(variables('isCentOS'), variables('CentOS Script URLs'), variables('Ubuntu Script URLs'))]",
+    "CentOS Command": "sh bootstrap-cent-os.sh",
+    "Ubuntu Command": "sh bootstrap-ubuntu.sh",
+    "Command": "[if(variables('isCentOS'), variables('CentOS Command'), variables('Ubuntu Command'))]"
   },
   "resources": [
     {
@@ -225,7 +226,7 @@
       "resources": [
         {
           "type": "extensions",
-          "name": "[variables('Docker Custom Script Name')]",
+          "name": "[variables('Custom Script Name')]",
           "tags": {},
           "apiVersion": "2017-12-01",
           "location": "[resourceGroup().location]",
@@ -238,32 +239,8 @@
             "typeHandlerVersion": "2.0",
             "autoUpgradeMinorVersion": true,
             "settings": {
-              "fileUris": [
-                "[variables('Docker Script URL')]"
-              ],
-              "commandToExecute": "[variables('Docker Command')]"
-            }
-          }
-        },
-        {
-          "type": "extensions",
-          "name": "[variables('Azure CLI Custom Script Name')]",
-          "tags": {},
-          "apiVersion": "2017-12-01",
-          "location": "[resourceGroup().location]",
-          "dependsOn": [
-            "[resourceId('Microsoft.Compute/virtualMachines', variables('VM Name'))]"
-          ],
-          "properties": {
-            "publisher": "Microsoft.Azure.Extensions",
-            "type": "CustomScript",
-            "typeHandlerVersion": "2.0",
-            "autoUpgradeMinorVersion": true,
-            "settings": {
-              "fileUris": [
-                "[variables('Azure CLI Script URL')]"
-              ],
-              "commandToExecute": "[variables('Azure CLI Command')]"
+              "fileUris": "[variables('Script URLs')]",
+              "commandToExecute": "[variables('Command')]"
             }
           }
         }

@@ -27,6 +27,8 @@
   <ItemGroup>
     <Content Include="azuredeploy.json" />
     <Content Include="azuredeploy.parameters.json" />
+    <None Include="bootstrap-cent-os.sh" />
+    <None Include="bootstrap-ubuntu.sh" />
     <None Include="Deployment.targets">
       <Visible>False</Visible>
     </None>
