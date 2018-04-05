@@ -9,4 +9,4 @@
 sh install-docker-cent-os.sh
 
 #	Install Azure CLI
-#sh install-azure-cli-cent-os.sh
+sh install-azure-cli-cent-os.sh
