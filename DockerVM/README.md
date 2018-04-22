@@ -1,5 +1,7 @@
 #	Docker VM
 
+Read a blog entry explaining this template [here](https://vincentlauzon.com/2018/04/11/linux-custom-script-docker-sandbox/).
+
 Deploy a CentOS or Ubuntu VM Linux VM and install Docker Community Edition (CE) & Azure CLI on it.
 
 Port 22 (SSH) and 80 to 89 are openned.
