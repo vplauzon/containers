@@ -1,19 +1,29 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: webserver-e
+  name: webserver-f
   labels:
-    app: dep-e
+    app: dep-f
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: app-e
+      app: app-f
   template:
     metadata:
       labels:
-        app: app-e
+        app: app-f
     spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key:  app
+                operator:  In
+                values:
+                - f
+            topologyKey: failure-domain.beta.kubernetes.io/zone
       containers:
       - name: myapp
         image: vplauzon/get-started:part2-no-redis
