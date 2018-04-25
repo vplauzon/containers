@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webserver-e
+  labels:
+    app: dep-e
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: app-e
+  template:
+    metadata:
+      labels:
+        app: app-e
+    spec:
+      containers:
+      - name: myapp
+        image: vplauzon/get-started:part2-no-redis
+        ports:
+        - containerPort: 80
