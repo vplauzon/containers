@@ -17,13 +17,15 @@ spec:
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
-          - labelSelector:
-              matchExpressions:
-              - key:  app
-                operator:  In
-                values:
-                - app-f
-            topologyKey: azure-update-domain
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key:  app
+                  operator:  In
+                  values:
+                  - app-f
+              topologyKey: azure-update-domain
       containers:
       - name: myapp
         image: vplauzon/get-started:part2-no-redis
