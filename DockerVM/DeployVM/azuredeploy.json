@@ -56,7 +56,7 @@
     "VM Ubuntu Image Reference": {
       "publisher": "Canonical",
       "offer": "UbuntuServer",
-      "sku": "17.10",
+      "sku": "18.04-LTS",
       "version": "latest"
     },
     "VM Image Reference": "[if(variables('isCentOS'), variables('VM CentOS Image Reference'), variables('VM Ubuntu Image Reference'))]",
